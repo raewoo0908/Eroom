@@ -14,7 +14,8 @@ public class Teacher {
 
     private String teacherName;
 
-    private String subject;
+    @Enumerated(EnumType.STRING)
+    private SubjectEnum subject;
 
     @OneToMany(mappedBy = "teacher")
     private List<Classes> classesList = new ArrayList<>();

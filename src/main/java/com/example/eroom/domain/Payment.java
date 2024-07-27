@@ -18,7 +18,7 @@ public class Payment {
     private LocalDate paymentDate; //지불 날짜
 
     @Enumerated(EnumType.STRING)
-    private PaymentType paymentType; //지불 유형(TRANSFER, CARD)
+    private PaymentTypeEnum paymentType; //지불 유형(TRANSFER, CARD)
 
     private boolean isPaid; //지불 여부
 

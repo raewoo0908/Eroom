@@ -1,7 +1,6 @@
 package com.example.eroom.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,21 +26,28 @@ public class AdminWork {
     private Staff staff; //업무 기록 스태프
 
     @Enumerated(EnumType.STRING)
-    private WorkStatus status; //업무 진행 상태 (COMPLETED, ONGOING)
+    private WorkStatusEnum status; //업무 진행 상태 (COMPLETED, ONGOING)
 
     @OneToMany(mappedBy = "adminWork")
     private List<WorkStudent> workStudentList = new ArrayList<>();
 
+    //연관관계 편의 메서드
+    public void addWorkStudent(WorkStudent workStudent) {
+        workStudentList.add(workStudent);
+        workStudent.setAdminWork(this);
+    }
+
 
     //생성 메서드
-    public static AdminWork createAdminWork(Staff staff, String detail) {
+    public static AdminWork createAdminWork(Staff staff, String detail, WorkStudent... workStudents) {
         AdminWork adminWork = new AdminWork();
         adminWork.staff = staff;
         adminWork.detail = detail;
         adminWork.recordDateTime = LocalDateTime.now();
-        adminWork.status = WorkStatus.ONGOING;
+        adminWork.status = WorkStatusEnum.ONGOING;
+        for (WorkStudent workStudent : workStudents) {
+            adminWork.addWorkStudent(workStudent);
+        }
         return adminWork;
     }
-
-
 }

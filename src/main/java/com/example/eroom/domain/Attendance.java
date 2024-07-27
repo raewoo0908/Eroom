@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -33,7 +31,7 @@ public class Attendance {
     private LocalDate classDate;
 
     @Enumerated(EnumType.STRING)
-    private AbsenceReason absenceReason;
+    private AbsenceReasonEnum absenceReason;
 
     public static Attendance createAttendance(Student student, Classes classes, Payment payment) {
         Attendance attendance = new Attendance();

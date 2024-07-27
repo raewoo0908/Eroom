@@ -1,5 +1,5 @@
 package com.example.eroom.domain;
 
-public enum WorkStatus {
+public enum WorkStatusEnum {
     COMPLETED, ONGOING
 }

@@ -1,5 +1,5 @@
 package com.example.eroom.domain;
 
-public enum PaymentType {
+public enum PaymentTypeEnum {
     TRANSFER, CARD
 }

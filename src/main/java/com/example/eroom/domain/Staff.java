@@ -18,6 +18,8 @@ public class Staff {
 
     private String staffName; //스태프 이름
 
+    private String staffEmail;
+
 
     //생성 메서드
     public static Staff createStaff(String staffName) {
