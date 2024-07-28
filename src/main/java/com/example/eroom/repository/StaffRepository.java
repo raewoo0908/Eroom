@@ -29,9 +29,18 @@ public class StaffRepository {
     }
 
     public Optional<Staff> findByEmail(String email){
-        String jpql = "SELECT s FROM Staff s WHERE s.staffEmail = :email";
+        String jpql = "SELECT s FROM Staff s WHERE s.email = :email";
         List<Staff> findStaffs = em.createQuery(jpql, Staff.class).setParameter("email", email).getResultList();
         return findStaffs.stream().findAny();
+    }
+
+    public Optional<Staff> findByEmailAndPassword(String email, String password){
+        String jpql = "SELECT s FROM Staff s WHERE s.email = :email AND s.password = :password";
+        Staff findStaff = em.createQuery(jpql, Staff.class)
+                .setParameter("email", email)
+                .setParameter("password", password)
+                .getSingleResult();
+        return Optional.ofNullable(findStaff);
     }
 
 }
