@@ -1,8 +1,7 @@
 package com.example.eroom.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -10,6 +9,9 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AdminWork {
 
     @Id @GeneratedValue
@@ -39,15 +41,21 @@ public class AdminWork {
 
 
     //생성 메서드
-    public static AdminWork createAdminWork(Staff staff, String detail, WorkStudent... workStudents) {
+    /*생성 메서드
+    * param: 업무 생성 Staff, 세부사항, 관련된 Student 리스트
+    * return: 새로 생성된 AdminWork
+    * */
+    public static AdminWork createAdminWork(Staff staff, String detail, List<WorkStudent> workStudentList){
         AdminWork adminWork = new AdminWork();
-        adminWork.staff = staff;
-        adminWork.detail = detail;
-        adminWork.recordDateTime = LocalDateTime.now();
-        adminWork.status = WorkStatusEnum.ONGOING;
-        for (WorkStudent workStudent : workStudents) {
+        adminWork.setStaff(staff);
+        adminWork.setDetail(detail);
+        adminWork.setRecordDateTime(LocalDateTime.now());
+        adminWork.setStatus(WorkStatusEnum.ONGOING);
+        for (WorkStudent workStudent : workStudentList) {
             adminWork.addWorkStudent(workStudent);
         }
         return adminWork;
     }
+
+    //==비즈니스 로직==//
 }

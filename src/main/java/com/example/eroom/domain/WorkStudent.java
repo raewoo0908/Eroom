@@ -26,4 +26,7 @@ public class WorkStudent {
         //setAdminWork는 AdminWork의 생성 메서드에서 해줌.
         return workStudent;
     }
+
+    public void delete() {
+    }
 }

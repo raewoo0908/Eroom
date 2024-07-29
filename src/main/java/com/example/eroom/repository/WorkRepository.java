@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,6 +25,10 @@ public class WorkRepository {
 
     public void delete(AdminWork work) {
         em.remove(work);
+    }
+
+    public List<AdminWork> findAll() {
+        return em.createQuery("select w from AdminWork w", AdminWork.class).getResultList();
     }
 
     /*업무 검색 기능
