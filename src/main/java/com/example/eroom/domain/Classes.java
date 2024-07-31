@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Time;
+import java.time.LocalTime;
 
 @Entity
 @Getter @Setter
@@ -16,15 +17,21 @@ public class Classes {
 
     private String className;
 
-    private Time startTime;
+    private LocalTime startTime;
 
-    private Time endTime;
+    private LocalTime endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    public static Classes create(String className, Time startTime, Time endTime, Teacher teacher) {
+    //연관관계 편의 메서드//
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+        teacher.getClassesList().add(this);
+    }
+
+    public static Classes create(String className, LocalTime startTime, LocalTime endTime, Teacher teacher) {
         Classes classes = new Classes();
         classes.setClassName(className);
         classes.setStartTime(startTime);

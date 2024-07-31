@@ -5,12 +5,17 @@ import com.example.eroom.dto.ResponseDTO;
 import com.example.eroom.dto.StaffDTO;
 import com.example.eroom.service.StaffService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/staff")
 public class StaffController {
 
@@ -37,11 +42,8 @@ public class StaffController {
             staffService.addStaff(staff);
 
             //StaffDTO 초기화
-            StaffDTO responseStaffDTO = StaffDTO.builder()
-                    .id(staff.getId())
-                    .staffName(staff.getStaffName())
-                    .email(staff.getEmail())
-                    .build();
+            StaffDTO responseStaffDTO = new StaffDTO(staff);
+
             //ResponseEntity에 StaffDTO 실어서 리턴
             return ResponseEntity.ok().body(responseStaffDTO);
         }catch(Exception e){
@@ -57,7 +59,9 @@ public class StaffController {
     * */
     @PostMapping("/signin")
     public ResponseEntity<?> loginStaff(@RequestBody @Valid StaffDTO staffDTO) {
-        Staff staff = staffService.findStaffByCredentials(staffDTO.getEmail(), staffDTO.getPassword()).get();
+
+        Staff staff = staffService.findStaffByCredentials(staffDTO.getEmail(), staffDTO.getPassword());
+
         if (staff != null) {
             StaffDTO responseStaffDTO = StaffDTO.builder()
                     .staffName(staff.getStaffName())
@@ -65,7 +69,7 @@ public class StaffController {
                     .id(staff.getId())
                     .build();
             return ResponseEntity.ok().body(responseStaffDTO);
-        } else{
+        }else{
             ResponseDTO responseDTO = ResponseDTO.builder()
                     .error("Login failed")
                     .build();

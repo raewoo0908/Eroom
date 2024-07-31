@@ -30,10 +30,11 @@ public class Staff {
 
 
     //생성 메서드
-    public static Staff createStaff(String staffName, String staffEmail) {
+    public static Staff createStaff(String staffName, String staffEmail, StaffRoleEnum role) {
         Staff staff = new Staff();
         staff.setStaffName(staffName);
         staff.setEmail(staffEmail);
+        staff.setRole(role);
         return staff;
     }
 

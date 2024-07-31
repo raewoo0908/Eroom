@@ -6,6 +6,7 @@ import com.example.eroom.repository.StaffRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,18 +19,24 @@ public class StaffService {
     private final StaffRepository repository;
 
     @Transactional
-    public Long addStaff(Staff staff) {
+    public Staff addStaff(Staff staff) {
         validateDuplicatedStaff(staff);
         repository.save(staff);
-        return staff.getId();
+        return staff;
     }
 
     public List<Staff> findAllStaff(){
         return repository.findAll();
     }
 
-    public Optional<Staff> findStaffById(Long id){
-        return repository.findById(id);
+    public Staff findStaffById(Long id){
+        Optional<Staff> optionalStaff = repository.findById(id);
+
+        if (optionalStaff.isPresent()){
+            return optionalStaff.get();
+        } else{
+            throw new NoSuchStaffException();
+        }
     }
 
     private void validateDuplicatedStaff(Staff staff) {
@@ -37,9 +44,11 @@ public class StaffService {
         if (byEmail.isPresent()) {throw new IllegalStateException("This email is already used by another Staff.");}
     }
 
-    public Optional<Staff> findStaffByCredentials(final String email, final String password) {
-        if (repository.findByEmailAndPassword(email, password).isPresent()) {
-            return repository.findByEmailAndPassword(email, password);
+    public Staff findStaffByCredentials(final String email, final String password) {
+        Optional<Staff> optionalStaff = repository.findByEmailAndPassword(email, password);
+
+        if (optionalStaff.isPresent()) {
+            return optionalStaff.get();
         }else{
             throw new NoSuchStaffException("This staff does not exist.");
         }
