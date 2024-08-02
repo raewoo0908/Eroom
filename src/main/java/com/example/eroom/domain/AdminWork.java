@@ -30,7 +30,7 @@ public class AdminWork {
     @Enumerated(EnumType.STRING)
     private WorkStatusEnum status; //업무 진행 상태 (COMPLETED, ONGOING)
 
-    @OneToMany(mappedBy = "adminWork")
+    @OneToMany(mappedBy = "adminWork", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkStudent> workStudentList = new ArrayList<>();
 
     //연관관계 편의 메서드
@@ -39,18 +39,26 @@ public class AdminWork {
         workStudent.setAdminWork(this);
     }
 
+    public void clearWorkStudentList() {
+        this.workStudentList.clear();
+    }
+
 
     //생성 메서드
     /*생성 메서드
     * param: 업무 생성 Staff, 세부사항, 관련된 Student 리스트
     * return: 새로 생성된 AdminWork
     * */
-    public static AdminWork createAdminWork(Staff staff, String detail, List<WorkStudent> workStudentList){
+    public static AdminWork createAdminWork(Staff staff, String detail, List<WorkStudent> workStudentList, String status){
         AdminWork adminWork = new AdminWork();
         adminWork.setStaff(staff);
         adminWork.setDetail(detail);
         adminWork.setRecordDateTime(LocalDateTime.now());
-        adminWork.setStatus(WorkStatusEnum.ONGOING);
+        if (status.equals("COMPLETED")){
+            adminWork.setStatus(WorkStatusEnum.COMPLETED);
+        }else if(status.equals("ONGOING")){
+            adminWork.setStatus(WorkStatusEnum.ONGOING);
+        }
         for (WorkStudent workStudent : workStudentList) {
             adminWork.addWorkStudent(workStudent);
         }

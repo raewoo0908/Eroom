@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Time;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -25,18 +25,20 @@ public class Classes {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    //연관관계 편의 메서드//
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-        teacher.getClassesList().add(this);
-    }
+    @OneToMany(mappedBy = "classes", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Attendance> attendanceList;
 
-    public static Classes create(String className, LocalTime startTime, LocalTime endTime, Teacher teacher) {
+    //연관관계 편의 메서드//
+//    public void setTeacher(Teacher teacher) {
+//        this.teacher = teacher;
+//        teacher.getClassesList().add(this);
+//    }
+
+    public static Classes createClasses(String className, LocalTime startTime, LocalTime endTime) {
         Classes classes = new Classes();
         classes.setClassName(className);
         classes.setStartTime(startTime);
         classes.setEndTime(endTime);
-        classes.setTeacher(teacher);
         return classes;
     }
 }

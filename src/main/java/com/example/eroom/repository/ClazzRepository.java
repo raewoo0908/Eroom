@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class ClassRepository {
+public class ClazzRepository {
 
     private final EntityManager em;
 
@@ -26,5 +26,9 @@ public class ClassRepository {
     public List<Classes> findAll() {
         String jpql = "select c from Classes c";
         return em.createQuery(jpql, Classes.class).getResultList();
+    }
+
+    public void delete(Classes clazz) {
+        em.remove(clazz);
     }
 }

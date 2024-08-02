@@ -28,7 +28,9 @@ public class WorkRepository {
     }
 
     public List<AdminWork> findAll() {
-        return em.createQuery("select w from AdminWork w", AdminWork.class).getResultList();
+        String jpql = "select w from AdminWork w"+
+                " join fetch w.workStudentList";
+        return em.createQuery(jpql, AdminWork.class).getResultList();
     }
 
     /*업무 검색 기능

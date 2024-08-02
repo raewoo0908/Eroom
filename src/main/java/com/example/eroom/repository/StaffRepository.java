@@ -30,8 +30,8 @@ public class StaffRepository {
 
     public Optional<Staff> findByEmail(String email){
         String jpql = "SELECT s FROM Staff s WHERE s.email = :email";
-        List<Staff> findStaffs = em.createQuery(jpql, Staff.class).setParameter("email", email).getResultList();
-        return findStaffs.stream().findAny();
+        Staff findStaff = em.createQuery(jpql, Staff.class).setParameter("email", email).getSingleResult();
+        return Optional.ofNullable(findStaff);
     }
 
     public Optional<Staff> findByEmailAndPassword(String email, String password){

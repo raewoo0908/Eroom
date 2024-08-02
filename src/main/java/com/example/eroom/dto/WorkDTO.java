@@ -22,7 +22,7 @@ public class WorkDTO {
 
     private String detail; //work의 내용
 
-    private WorkStatusEnum status;
+    private String status;
 
     private List<Long> studentIdList;
 
@@ -33,7 +33,7 @@ public class WorkDTO {
     public WorkDTO(AdminWork adminWork) {
         this.setId(adminWork.getId());
         this.setDetail(adminWork.getDetail());
-        this.setStatus(adminWork.getStatus());
+        this.setStatus(adminWork.getStatus().toString());
         this.setStudentIdList(adminWork.getWorkStudentList()
                 .stream()
                 .map(ws -> ws.getStudent().getId())

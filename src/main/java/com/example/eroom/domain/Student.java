@@ -35,4 +35,16 @@ public class Student {
 
     @OneToMany(mappedBy = "student")
     private List<WorkStudent> workStudentList = new ArrayList<>();
+
+    //생성메서드
+    public static Student createStudent(String studentName, String schoolName, int grade, String studentMobile, String momMobile, String dadMobile) {
+        Student student = new Student();
+        student.setStudentName(studentName);
+        student.setSchoolName(schoolName);
+        student.setGrade(grade);
+        student.setStudentMobile(studentMobile);
+        student.setMomMobile(momMobile);
+        student.setDadMobile(dadMobile);
+        return student;
+    }
 }
